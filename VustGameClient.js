@@ -36,14 +36,18 @@ PlayerIO.authenticate(
                     }
 
                     if (message.type == "location") {
-                        if (message.getInt(0) == my_player_id)
-                            return;
-                        
                         var x = message.getInt(1);
                         var y = message.getInt(2);
 
-                        window.runtimeScene.getObjects("OtherPlayer")[0].setX(x);
-                        window.runtimeScene.getObjects("OtherPlayer")[0].setY(y);
+
+                        if (message.getInt(0) == my_player_id) {
+                            window.runtimeScene.getObjects("MyPlayer")[0].setX(x);
+                            window.runtimeScene.getObjects("MyPlayer")[0].setY(y);
+                        }
+                        else {
+                            window.runtimeScene.getObjects("OtherPlayer")[0].setX(x);
+                            window.runtimeScene.getObjects("OtherPlayer")[0].setY(y);
+                        }
                     }
                 });
 
