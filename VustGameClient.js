@@ -22,6 +22,9 @@ PlayerIO.authenticate(
                 var my_player_id = -1;
 
                 connection.addMessageCallback("*", function (message) {
+                    console.log(message);
+                    console.log(message.toString());
+
                     if (message.type == "init") {
                         my_player_id = message.getInt(0);
 
@@ -29,7 +32,7 @@ PlayerIO.authenticate(
                     }
 
                     if (message.type == "join") {
-                        
+
                     }
 
                     if (message.type == "location") {
