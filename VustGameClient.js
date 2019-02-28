@@ -8,6 +8,8 @@ PlayerIO.authenticate(
     { userId: 'guest' },                     // authentication arguments
     {},
     function (client) {
+        window.client = client;
+
         client.multiplayer.createJoinRoom(
             'betaworld',            // room id
             'VustOnline',           // room type
@@ -15,8 +17,31 @@ PlayerIO.authenticate(
             {},                    // room data
             { name: 'john' },       // join data
             function (connection) {
+                window.connection = connection;
+
+                var my_player_id = -1;
+
                 connection.addMessageCallback("*", function (message) {
-                    console.log(message.toString());
+                    if (message.type == "init") {
+                        my_player_id = message.getInt(0);
+
+                        connection.send("init2");
+                    }
+
+                    if (message.type == "join") {
+                        
+                    }
+
+                    if (message.type == "location") {
+                        if (message.getInt(0) == my_player_id)
+                            return;
+                        
+                        var x = message.getInt(1);
+                        var y = message.getInt(2);
+
+                        window.runtimeScene.getObjects("OtherPlayer")[0].setX(x);
+                        window.runtimeScene.getObjects("OtherPlayer")[0].setY(y);
+                    }
                 });
 
                 // setup a disconnect handler:
